@@ -5,7 +5,8 @@
 ## FEATURES TO IMPLEMENT
 
 -Features to implement:
-1- Page d'accueil présentant les événements à venir. (index.php)
-2- Dialog popup pour chaque événement avec informations complètes. (index.php)
-3- Panneau d'administration pour créer et gérer les événements. (viewEvents.php)
-4- Système d'authentification. (login.php / logout.php)
+
+- Page d'accueil présentant les événements à venir. (index.php)
+- Dialog popup pour chaque événement avec informations complètes. (index.php)
+- Panneau d'administration pour créer et gérer les événements. (viewEvents.php)
+- Système d'authentification. (login.php / logout.php)
