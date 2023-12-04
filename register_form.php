@@ -48,7 +48,12 @@
                                 <?php if (isset($errors['cpassword'])) echo $errors['cpassword']; ?>
                             </span>
                         </div>
-                        <button type="submit" class = "btn btn-default">Register</button>
+                        <div class="flex-between">
+                            <button type = "submit" class = "btn btn-default">Register</button>
+                            <p>You already have an account?
+                                <a href="register_form.php">Log In</a>
+                            </p>
+                        </div>
                     </form>
                 </div>
             </div>

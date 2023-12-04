@@ -45,7 +45,12 @@
                                 <?php if (isset($errors['password'])) echo $errors['password']; ?>
                             </span>
                         </div>
-                        <button type = "submit" class = "btn btn-default">Login</button>
+                        <div class="flex-between">
+                            <button type = "submit" class = "btn btn-default">Login</button>
+                            <p>Don't have an account?
+                                <a href="register_form.php">Register</a>
+                            </p>
+                        </div>
                     </form>
                 </div><!--col md 6 div-->
             </div><!--container div-->

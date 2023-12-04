@@ -36,6 +36,13 @@ header .navbar {
   font-family: "Montserrat", sans-serif;
 }
 
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
 .flex-between {
   display: flex;
   justify-content: space-between;
