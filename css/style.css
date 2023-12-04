@@ -32,8 +32,15 @@ hr {
 
 /*Header styles*/
 header .navbar {
-  padding: 20px 0;
+  padding-right: 20px;
   font-family: "Montserrat", sans-serif;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
 header .navbar-header a::first-letter {
