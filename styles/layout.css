@@ -11,13 +11,13 @@ header {
 
 footer {
   background-color: #0e0e10;
+  padding: 30px 12px;
 }
 
 /* Mobile styles */
 
 @media (max-width: 550px) {
-  header,
-  footer {
+  header {
     padding: 5px !important;
   }
   nav * {

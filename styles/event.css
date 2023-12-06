@@ -1,0 +1,23 @@
+#event-ctr {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#event-ctr * {
+  text-align: start;
+}
+
+#event-ctr .event-date-organizator {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+#event-ctr .organizer_img {
+  border-radius: 50%;
+}

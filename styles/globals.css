@@ -27,7 +27,7 @@ body {
 }
 
 main {
-  min-height: 500px;
+  min-height: 450px;
 }
 
 button,
@@ -47,8 +47,7 @@ a:hover {
 }
 
 header,
-main,
-footer {
+main {
   padding: 12px;
   width: 100%;
 }

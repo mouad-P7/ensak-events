@@ -38,31 +38,37 @@ if (isset($_GET['id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Details</title>
   <link rel="stylesheet" type="text/css" href="styles/globals.css">
+  <link rel="stylesheet" type="text/css" href="styles/event.css">
 </head>
 
 <body>
   <?php require 'layout/header.php'; ?>
   <main>
-    <?php
-    if (isset($event)) {
-      echo
-        "<img src='{$event['event_img']}' alt='Event Image' width='150' height='100'>
-        <h3>{$event['event_name']}</h3>
-        <p>Date: {$event['event_date']}</p>
-        <p>Details: {$event['event_details']}</p>
-        <p>Organized by: {$event['organizer_username']}</p>";
-      if (!empty($event['organizer_img'])) {
+    <div id="event-ctr">
+      <?php
+      if (isset($event)) {
         echo
-          "<img 
-          src='{$event['organizer_img']}' 
-          alt='Organizer Image' 
-          width='100' height='100'>";
+          "<div id='event-img-ctr'>
+            <img class='bg-img' src='{$event['event_img']}' alt='Event Image'>
+          </div>
+          <h3 class='h2-bold'>{$event['event_name']}</h3>
+          <div class='event-date-organizator'>
+            <p>{$event['event_date']}</p>
+            <div class='flex-start'>
+              <p>Organisé par:</p>
+              <img 
+                class='organizer_img' src='{$event['organizer_img']}' alt='Organizer Image' 
+                width='40' height='40'
+              >
+              <p>{$event['organizer_username']}</p>
+            </div>
+          </div>
+          <p>{$event['event_details']}</p>";
+      } else {
+        echo "<p>Event not found.</p>";
       }
-
-    } else {
-      echo "<p>Event not found.</p>";
-    }
-    ?>
+      ?>
+    </div>
   </main>
   <?php require 'layout/footer.php'; ?>
 
