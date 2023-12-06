@@ -1,86 +1,76 @@
 <?php
-require_once 'utils/functions.php';
-require_once 'classes/User.php';
-require_once 'classes/Event.php';
-require_once 'classes/EventTableGateway.php';
-require_once 'classes/Location.php';
-require_once 'classes/LocationTableGateway.php';
-require_once 'classes/Connection.php';
+session_start();
 
-
-$connection = Connection::getInstance();
-$gateway = new EventTableGateway($connection);
-
-$statement = $gateway->getEvents();
-
-start_session();
-
-if (!is_logged_in()) {
-    header("Location: login_form.php");
+// Check if the user is logged in
+if(!isset($_SESSION['user_id'])) {
+  // Redirect to the login page if not logged in
+  header("Location: login.php");
+  exit();
 }
 
-$user = $_SESSION['user'];
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
-        <?php require 'utils/styles.php'; ?>
-        <?php require 'utils/scripts.php'; ?>
-    </head>
-    <body>
-        <?php require 'utils/header.php'; ?>
-        <div class = "content">
-            <div class = "container">
-                <?php 
-                if (isset($message)) {
-                    echo '<p>'.$message.'</p>';
-                }
-                ?>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Event ID</th>
-                            <th>Title</th>
-                            <th>Description</th>                    
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Cost</th>
-                            <th>Location</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $row = $statement->fetch(PDO::FETCH_ASSOC);
-                        while ($row) {
-                            echo '<tr>';
-                            echo '<td>' . $row['EventID'] . '</td>';
-                            echo '<td>' . $row['Title'] . '</td>';
-                            echo '<td>' . $row['Description'] . '</td>';                    
-                            echo '<td>' . $row['StartDate'] . '</td>';
-                            echo '<td>' . $row['EndDate'] . '</td>';
-                            echo '<td>' . $row['Cost'] . '</td>';
-                            echo '<td>'
-                            . '<a href="viewLocation.php?id='.$row['LocationID'].'">'.$row['name'].'</a> '
-                            . '</td>';
-                            echo '<td>'
-                            . '<a href="viewEvent.php?id='.$row['EventID'].'">View</a> '
-                            . '<a class="delete" href="deleteEvent.php?id='.$row['EventID'].'">Delete</a> '
-                            . '</td>';
-                            echo '</tr>';  
+// Include the database connection file
+include 'utils/db_connection.php';
 
-                            $row = $statement->fetch(PDO::FETCH_ASSOC);
-                        }
-                        ?>
-                    </tbody>
-                </table>
-                
-                <a class="btn btn-default" href = "createEventForm.php">Create Event</a><!--register button-->
+// Get the organizer ID from the session
+$organizerID = $_SESSION['user_id'];
+
+// Retrieve events for the logged-in user from the database
+$selectQuery = "SELECT * FROM events WHERE organizer_id = '$organizerID'";
+$result = mysqli_query($conn, $selectQuery);
+
+if(!$result) {
+  die("Error executing the query: ".mysqli_error($conn));
+}
+
+// Fetch and display events
+$events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="styles/globals.css">
+  <link rel="stylesheet" type="text/css" href="styles/viewEvents.css">
+</head>
+
+<body>
+  <?php require 'layout/header.php'; ?>
+  <main class="flex-start flex-col">
+    <h1>Your Events:</h1>
+    <div class='flex-center event-row'>
+      <h3 class='event-name h3-bold'>Name:</h3>
+      <p class='event-date h3-bold'>Date:</p>
+      <p class='event-details h3-bold'>Details:</p>
+      <p class='event-actions h3-bold'>Actions:</p>
+    </div>
+    <?php
+    if(empty($events)) {
+      echo "<p>No events found.</p>";
+    } else {
+      foreach($events as $event) {
+        echo
+          "<div class='flex-center event-row'>
+            <h3 class='event-name'>{$event['event_name']}</h3>
+            <p class='event-date'>{$event['event_date']}</p>
+            <p class='event-details'>{$event['event_details']}</p>
+            <div class='event-actions'>
+              <a href='event.php?id={$event['event_id']}' class='info'>View</a>
+              <form method='post' action='deleteEvent.php'>
+                <input type='hidden' name='event_id' value='{$event['event_id']}'>
+                <button type='submit' class='danger'>Delete</button>
+              </form>
             </div>
-        </div>
-        
-        <?php require 'utils/footer.php'; ?>
-    </body>
+          </div>";
+      }
+    }
+    ?>
+    <a href="createEvent.php">Create New Event</a>
+  </main>
+  <?php require 'layout/footer.php'; ?>
+</body>
+
 </html>

@@ -1,0 +1,136 @@
+@import url("layout.css");
+
+/* global */
+
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+  scroll-behavior: smooth;
+  max-width: 100%;
+  font-size: 16px;
+  color: #eee8e8;
+}
+
+html {
+  font-size: 62.5%;
+} /* 1rem = 10px */
+
+body {
+  background-color: #000000;
+  max-width: 1024px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+main {
+  min-height: 500px;
+}
+
+button,
+input,
+textarea,
+a {
+  background-color: #242937;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover,
+input:hover,
+textarea:hover,
+a:hover {
+  background-color: #3c4043;
+}
+
+header,
+main,
+footer {
+  padding: 12px;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: var(--myWhite);
+}
+
+.info {
+  background-color: #2ea0b2;
+}
+.info:hover {
+  background-color: #138496;
+}
+.danger {
+  background-color: #ef4444;
+}
+.danger:hover {
+  background-color: #c82333;
+}
+
+.flex-start {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+.flex-col {
+  flex-direction: column;
+}
+
+.h1 {
+  font-size: 24px;
+}
+.h1-bold {
+  font-size: 24px;
+  font-weight: bold;
+}
+.h1-semibold {
+  font-size: 24px;
+  font-weight: 700;
+}
+.h1 {
+  font-size: 20px;
+}
+.h2-bold {
+  font-size: 20px;
+  font-weight: bold;
+}
+.h2-semibold {
+  font-size: 20px;
+  font-weight: 700;
+}
+.h1 {
+  font-size: 18px;
+}
+.h3-bold {
+  font-size: 18px;
+  font-weight: bold;
+}
+.h2-semibold {
+  font-size: 18px;
+  font-weight: 700;
+}

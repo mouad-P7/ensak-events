@@ -1,18 +1,36 @@
 <?php
-require_once 'classes/Event.php';
-require_once 'classes/EventTableGateway.php';
-require_once 'classes/Connection.php';
+// Start the session
+session_start();
 
-
-if (!isset($_GET['id'])) {
-    die("Illegal request");
+// Check if the user is logged in
+if(!isset($_SESSION['user_id'])) {
+  // Redirect to the login page if not logged in
+  header("Location: login.php");
+  exit();
 }
-$id = $_GET['id'];
 
-$connection = Connection::getInstance();
+// Include the database connection file
+include 'utils/db_connection.php';
 
-$gateway = new EventTableGateway($connection);
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  // Get the event_id from the submitted form
+  $eventID = $_POST['event_id'];
 
-$gateway->delete($id);
+  // Get the organizer ID from the session
+  $organizerID = $_SESSION['user_id'];
 
-header('Location: viewEvents.php');
+  // Delete the event from the database (make sure to check if the event belongs to the logged-in user)
+  $deleteQuery = "DELETE FROM events WHERE event_id = '$eventID' AND organizer_id = '$organizerID'";
+  $deleteResult = mysqli_query($conn, $deleteQuery);
+
+  if(!$deleteResult) {
+    die("Error executing the query: ".mysqli_error($conn));
+  }
+
+  // Redirect back to the viewEvents.php page
+  header("Location: viewEvents.php");
+  exit();
+}
+
+mysqli_close($conn);
+?>

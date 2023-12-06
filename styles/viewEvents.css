@@ -1,0 +1,35 @@
+.event-row {
+  width: 100%;
+  padding: 10px;
+}
+.event-row:hover {
+  background-color: #0e0e10;
+  border-radius: 10px;
+}
+.event-row .event-name {
+  flex-basis: 90px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.event-row .event-date {
+  flex-basis: 82px;
+}
+.event-row .event-details {
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.event-row .event-actions {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+.event-row .event-actions a,
+.event-row .event-actions button {
+  padding: 1px 5px;
+}

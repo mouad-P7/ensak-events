@@ -1,16 +1,48 @@
+<?php
+// Include the database connection file
+include 'utils/db_connection.php';
+
+// Retrieve all events from the database
+$selectQuery = "SELECT * FROM events";
+$result = mysqli_query($conn, $selectQuery);
+
+if (!$result) {
+  die("Error executing the query: " . mysqli_error($conn));
+}
+
+// Fetch and display events
+$events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+?>
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Bootstrap Web Design</title>
-        <?php require 'utils/styles.php'; ?><!--css links. file found in utils folder-->
-        <?php require 'utils/scripts.php'; ?><!--js links. file found in utils folder-->
-    </head>
-    <body>
-        <?php require 'utils/header.php'; ?><!--header content. file found in utils folder-->
-        <main><!--body content holder-->
-            <h1>Here we should get all events in our database.</h1>
-        </main>
-        <?php require 'utils/footer.php'; ?><!--footer content. file found in utils folder-->
-    </body>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" type="text/css" href="styles/globals.css">
+</head>
+
+<body>
+  <?php require 'layout/header.php'; ?>
+  <main class="flex-start flex-col">
+    <?php
+    if (empty($events)) {
+      echo "<p>No events found.</p>";
+    } else {
+      foreach ($events as $event) {
+        echo
+          "<div class='flex-center flex-col'>
+            <h3>{$event['event_name']}</h3>
+            <p>Date: {$event['event_date']}</p>
+          </div>
+          <a href='event.php?id={$event['event_id']}'>View More Details</a>";
+      }
+    }
+    ?>
+  </main>
+  <?php require 'layout/footer.php'; ?>
+</body>
+
 </html>

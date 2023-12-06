@@ -1,15 +1,7 @@
 <?php
-require_once 'utils/functions.php';
-require_once 'classes/User.php';
-
-start_session();
-
-if (!is_logged_in()) {
-    header("Location: index.php");
-}
-else {
-	unset($_SESSION['user']);
-	
-	header("Location: index.php");
-}
+session_start();
+session_unset();
+session_destroy();
+header("Location: index.php");
+exit();
 ?>

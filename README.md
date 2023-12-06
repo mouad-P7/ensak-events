@@ -5,6 +5,12 @@
 ## FEATURES TO IMPLEMENT
 
 - Page d'accueil présentant les événements à venir. (index.php)
-- Dialog popup pour chaque événement avec informations complètes. (index.php)
-- Panneau d'administration pour créer et gérer les événements. (viewEvents.php)
-- Système d'authentification. (login.php / logout.php)
+- Page pour chaque événement avec informations complètes. (event.php)
+- Panneau d'administration pour CRUD toutes les événements. (viewEvents.php / createEvent.php / deleteEvent.php)
+- Système d'authentification. (login.php / logout.php / register.php)
+
+## INSTALATION
+
+- Create a database called: event_management
+- Import the file: sql/ensakEvents.sql
+- Start Apache and MySQL and you're ready to go 😀.

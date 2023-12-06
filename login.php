@@ -1,87 +1,82 @@
 <?php
+// Include the database connection file
+include 'utils/db_connection.php';
 
-require_once 'utils/functions.php';
-require_once 'classes/User.php';
-require_once 'classes/DB.php';
-require_once 'classes/UserTable.php';
+// Start session to persist user login
+session_start();
 
-start_session();
+// Check if the form is submitted
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+  // Get user input from the form
+  $username = $_POST['username'];
+  $password = $_POST['password'];
 
-// try to register the user - if there are any error/
-// exception, catch it and send the user back to the
-// login form with an error message
-try {
-    $formdata = array();
-    $errors = array();
-    
-    $input_method = INPUT_POST;
+  // Validate user input (you can add more validation as needed)
+  if(empty($username) || empty($password)) {
+    $error_message = "Username and password are required.";
+  } else {
+    // Sanitize user input to prevent SQL injection
+    $username = mysqli_real_escape_string($conn, $username);
+    $password = mysqli_real_escape_string($conn, $password);
 
-    $formdata['username'] = filter_input($input_method, "username", FILTER_SANITIZE_STRING);
-    $formdata['password'] = filter_input($input_method, "password", FILTER_SANITIZE_STRING);
-    
-    // throw an exception if any of the form fields 
-    // are empty
-    if (empty($formdata['username'])) {
-        $errors['username'] = "Username required";
+    // Query the database to check user credentials
+    $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    $result = mysqli_query($conn, $query);
+
+    if($result) {
+      // Check if a matching user is found
+      if(mysqli_num_rows($result) == 1) {
+        // User is authenticated, store user data in session
+        $user = mysqli_fetch_assoc($result);
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['username'] = $user['username'];
+
+        // Redirect to a dashboard or home page
+        header("Location: viewEvents.php");
+        exit();
+      } else {
+        $error_message = "Invalid username or password.";
+      }
+    } else {
+      $error_message = "Error executing the query: ".mysqli_error($conn);
     }
-    //$email = filter_var($formdata['username'], FILTER_VALIDATE_EMAIL);
-    //if ($email != $formdata['username']) {
-    //    $errors['username'] = "Valid email required required";
-    //}
+  }
+}
 
-    if (empty($formdata['password'])) {
-        $errors['password'] = "Password required";
-    }
-    if (empty($errors)) {
-        // since none of the form fields were empty, 
-        // store the form data in variables
-        $username = $formdata['username'];
-        $password = $formdata['password'];
+// Close the database connection
+mysqli_close($conn);
+?>
 
-        // create a UserTable object and use it to retrieve 
-        // the users
-        $connection = DB::getConnection();
-        $userTable = new UserTable($connection);
-        $user = $userTable->getUserByUsername($username);
+<!DOCTYPE html>
+<html lang="en">
 
-        // since password fields match, see if the username
-        // has already been registered - if it is then throw
-        // and exception
-        if ($user == null) {
-            $errors['username'] = "Username is not registered";
-        }
-        else {
-            if ($password !== $user->getPassword()) {
-                $errors['password'] = "Password is incorrect";
-            }
-        }
-    }
-    
-    if (!empty($errors)) {
-        throw new Exception("");
-    }
-    
-    // since the username is not aleady registered, create
-    // a new User object, add it to the database using the
-    // UserTable object, and store it in the session array
-    // using the key 'user'
-    $_SESSION['user'] = $user;
-    
-    // now the user is registered and logged in so redirect
-    // them the their home page
-    // Note the user is redirected to home.php rather than
-    // requiring the home.php script at this point - this 
-    // ensures that if the user refreshes the home page they
-    // will not be resubmitting the login form.
-    // 
-    // require 'home.php';
-    header('Location: index.php');
-    }
-    catch (Exception $ex) {
-        // if an exception occurs then extract the message
-        // from the exception and send the user the
-        // registration form
-        $errorMessage = $ex->getMessage();
-        require 'login_form.php';
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="styles/globals.css">
+</head>
+
+<body>
+  <?php require 'layout/header.php'; ?>
+  <main class="flex-start flex-col">
+    <h1>Login Form</h1>
+    <?php
+    // Display error message if any
+    if(isset($error_message)) {
+      echo "<p style='color: red;'>$error_message</p>";
     }
     ?>
+    <form method="post" action="" class="flex-start flex-col">
+      <label for="username">Username:</label>
+      <input type="text" name="username" required>
+      <label for="password">Password:</label>
+      <input type="password" name="password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="register.php">Register</a></p>
+  </main>
+  <?php require 'layout/footer.php'; ?>
+</body>
+
+</html>
