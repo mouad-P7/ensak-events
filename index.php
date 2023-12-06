@@ -41,7 +41,7 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
               </div>
               <h3 class='event-name'>{$event['event_name']}</h3>
               <p class='event-date'>Date: {$event['event_date']}</p>
-              <a class='event-link' href='event.php?id={$event['event_id']}' target='_blank'>
+              <a class='event-link' href='event.php?id={$event['event_id']}'>
                 View More Details
               </a>
             </div>";

@@ -9,11 +9,10 @@ if (isset($_GET['id'])) {
 
   // Retrieve the event details from the database
   $selectQuery =
-    "SELECT events.*, users.username as organizer_username 
-    FROM events 
-    JOIN users ON events.organizer_id = users.user_id
-    WHERE events.event_id = '$eventID'";
-  // $selectQuery = "SELECT * FROM events WHERE event_id = '$eventID'";
+    "SELECT events.*, users.username as organizer_username, users.user_img as organizer_img 
+        FROM events 
+        JOIN users ON events.organizer_id = users.user_id
+        WHERE events.event_id = '$eventID'";
   $result = mysqli_query($conn, $selectQuery);
 
   if (!$result) {
@@ -50,9 +49,14 @@ if (isset($_GET['id'])) {
         <p>Date: {$event['event_date']}</p>
         <p>Details: {$event['event_details']}</p>
         <p>Organized by: {$event['organizer_username']}</p>";
+      if (!empty($event['organizer_img'])) {
+        echo
+          "<img 
+          src='{$event['organizer_img']}' 
+          alt='Organizer Image' 
+          width='100' height='100'>";
+      }
 
-      // Additional details or actions related to the event can be added here
-    
     } else {
       echo "<p>Event not found.</p>";
     }
