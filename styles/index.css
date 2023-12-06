@@ -1,0 +1,36 @@
+#event-card-ctr {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.event-card {
+  padding: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  max-width: 340px;
+  flex: 1 1 300px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  box-shadow: 0 0 10px #aea9a9dd;
+}
+
+.event-card .event-img-ctr {
+  border-radius: 10px;
+  height: 175px;
+  background-color: brown;
+}
+
+.event-card .event-name {
+  text-align: start;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.event-card .event-date {
+  text-align: start;
+}

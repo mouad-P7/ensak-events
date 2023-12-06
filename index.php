@@ -22,25 +22,33 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home</title>
   <link rel="stylesheet" type="text/css" href="styles/globals.css">
+  <link rel="stylesheet" type="text/css" href="styles/index.css">
 </head>
 
 <body>
   <?php require 'layout/header.php'; ?>
-  <main class="flex-start flex-col">
-    <?php
-    if (empty($events)) {
-      echo "<p>No events found.</p>";
-    } else {
-      foreach ($events as $event) {
-        echo
-          "<div class='flex-center flex-col'>
-            <h3>{$event['event_name']}</h3>
-            <p>Date: {$event['event_date']}</p>
-          </div>
-          <a href='event.php?id={$event['event_id']}'>View More Details</a>";
+  <main>
+    <div id="event-card-ctr">
+      <?php
+      if (empty($events)) {
+        echo "<p>No events found.</p>";
+      } else {
+        foreach ($events as $event) {
+          echo
+            "<div class='event-card'>
+              <div class='event-img-ctr'>
+                <img src='' alt='img' class='bg-img'>
+              </div>
+              <h3 class='event-name'>{$event['event_name']}</h3>
+              <p class='event-date'>Date: {$event['event_date']}</p>
+              <a class='event-link' href='event.php?id={$event['event_id']}' target='_blank'>
+                View More Details
+              </a>
+            </div>";
+        }
       }
-    }
-    ?>
+      ?>
+    </div>
   </main>
   <?php require 'layout/footer.php'; ?>
 </body>
