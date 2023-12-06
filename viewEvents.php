@@ -60,9 +60,9 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <div class='event-actions'>
               <a href='event.php?id={$event['event_id']}' class='info'>View</a>
               <a href='editEvent.php?id={$event['event_id']}' class='normal'>Edit</a>
-              <form method='post' action='deleteEvent.php'>
+              <form id='deleteEventForm' method='post' action='deleteEvent.php'>
                 <input type='hidden' name='event_id' value='{$event['event_id']}'>
-                <button type='submit' class='danger'>Delete</button>
+                <button type='button' onclick='confirmDelete()' class='danger'>Delete</button>
               </form>
             </div>
           </div>";
@@ -73,5 +73,12 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
   </main>
   <?php require 'layout/footer.php'; ?>
 </body>
+
+<script>
+  function confirmDelete() {
+    var result = confirm("Are you sure you want to delete this event?");
+    if (result) document.getElementById('deleteEventForm').submit();
+  }
+</script>
 
 </html>
