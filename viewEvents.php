@@ -2,7 +2,7 @@
 session_start();
 
 // Check if the user is logged in
-if(!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
   // Redirect to the login page if not logged in
   header("Location: login.php");
   exit();
@@ -18,8 +18,8 @@ $organizerID = $_SESSION['user_id'];
 $selectQuery = "SELECT * FROM events WHERE organizer_id = '$organizerID'";
 $result = mysqli_query($conn, $selectQuery);
 
-if(!$result) {
-  die("Error executing the query: ".mysqli_error($conn));
+if (!$result) {
+  die("Error executing the query: " . mysqli_error($conn));
 }
 
 // Fetch and display events
@@ -48,10 +48,10 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
       <p class='event-actions h3-bold'>Actions:</p>
     </div>
     <?php
-    if(empty($events)) {
+    if (empty($events)) {
       echo "<p>No events found.</p>";
     } else {
-      foreach($events as $event) {
+      foreach ($events as $event) {
         echo
           "<div class='flex-center event-row'>
             <h3 class='event-name'>{$event['event_name']}</h3>
@@ -59,6 +59,7 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <p class='event-details'>{$event['event_details']}</p>
             <div class='event-actions'>
               <a href='event.php?id={$event['event_id']}' class='info'>View</a>
+              <a href='editEvent.php?id={$event['event_id']}' class='normal'>Edit</a>
               <form method='post' action='deleteEvent.php'>
                 <input type='hidden' name='event_id' value='{$event['event_id']}'>
                 <button type='submit' class='danger'>Delete</button>

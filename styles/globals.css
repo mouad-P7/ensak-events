@@ -63,6 +63,12 @@ a {
   object-fit: cover;
 }
 
+.normal {
+  background-color: #2a83e1;
+}
+.normal:hover {
+  background-color: #0069d9;
+}
 .info {
   background-color: #2ea0b2;
 }
