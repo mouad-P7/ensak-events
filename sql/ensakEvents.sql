@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS events (
   event_name VARCHAR(255) NOT NULL,
   event_date DATE NOT NULL,
   event_details TEXT,
+  event_img VARCHAR(255),
   organizer_id INT,
   FOREIGN KEY (organizer_id) REFERENCES users(user_id) ON DELETE CASCADE
 );

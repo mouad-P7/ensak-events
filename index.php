@@ -37,7 +37,7 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
           echo
             "<div class='event-card'>
               <div class='event-img-ctr'>
-                <img src='' alt='img' class='bg-img'>
+                <img src='{$event['event_img']}' alt='img' class='bg-img'>
               </div>
               <h3 class='event-name'>{$event['event_name']}</h3>
               <p class='event-date'>Date: {$event['event_date']}</p>

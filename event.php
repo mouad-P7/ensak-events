@@ -9,10 +9,12 @@ if (isset($_GET['id'])) {
 
   // Retrieve the event details from the database
   $selectQuery =
-    "SELECT events.*, users.username as organizer_username, users.user_img as organizer_img 
-        FROM events 
-        JOIN users ON events.organizer_id = users.user_id
-        WHERE events.event_id = '$eventID'";
+    "SELECT events.*, 
+      users.username as organizer_username, 
+      users.user_img as organizer_img 
+    FROM events 
+    JOIN users ON events.organizer_id = users.user_id
+    WHERE events.event_id = '$eventID'";
   $result = mysqli_query($conn, $selectQuery);
 
   if (!$result) {
@@ -41,11 +43,11 @@ if (isset($_GET['id'])) {
 <body>
   <?php require 'layout/header.php'; ?>
   <main>
-    <h2>Event Details:</h2>
     <?php
     if (isset($event)) {
       echo
-        "<h3>{$event['event_name']}</h3>
+        "<img src='{$event['event_img']}' alt='Event Image' width='150' height='100'>
+        <h3>{$event['event_name']}</h3>
         <p>Date: {$event['event_date']}</p>
         <p>Details: {$event['event_details']}</p>
         <p>Organized by: {$event['organizer_username']}</p>";
