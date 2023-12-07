@@ -58,8 +58,9 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
             <p class='event-date'>{$event['event_date']}</p>
             <p class='event-details'>{$event['event_details']}</p>
             <div class='event-actions'>
-              <a href='event.php?id={$event['event_id']}' class='info'>View</a>
-              <a href='editEvent.php?id={$event['event_id']}' class='normal'>Edit</a>
+              <a href='event.php?id={$event['event_id']}' class='normal'>View</a>
+              <a href='eventDashboard.php?id={$event['event_id']}' class='info'>Info</a>
+              <a href='editEvent.php?id={$event['event_id']}' class='warning'>Edit</a>
               <form id='deleteEventForm' method='post' action='deleteEvent.php'>
                 <input type='hidden' name='event_id' value='{$event['event_id']}'>
                 <button type='button' onclick='confirmDelete()' class='danger'>Delete</button>

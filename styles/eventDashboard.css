@@ -1,0 +1,6 @@
+#users-ctr {
+  display: flex;
+  align-items: center;
+  row-gap: 20px;
+  flex-wrap: wrap;
+}
