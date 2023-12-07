@@ -5,6 +5,7 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $username = $_POST['username'];
   $password = $_POST['password'];
+  $email = $_POST['email'];
 
   // Default image path if the user does not provide one
   $defaultImage = 'images/inconnu.png';
@@ -14,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   } else {
     $username = mysqli_real_escape_string($conn, $username);
     $password = mysqli_real_escape_string($conn, $password);
+    $email = mysqli_real_escape_string($conn, $email);
 
     // Check if the username is already taken
     $check_query = "SELECT * FROM users WHERE username = '$username'";
@@ -41,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       // Insert the new user into the database
       $insert_query =
-        "INSERT INTO users (username, password, user_img) 
-                VALUES ('$username', '$password', '$userImage')";
+        "INSERT INTO users (username, email, password, user_img) 
+        VALUES ('$username', '$email', '$password', '$userImage')";
       $insert_result = mysqli_query($conn, $insert_query);
 
       if ($insert_result) {
@@ -82,6 +84,8 @@ mysqli_close($conn);
     <form class="flex-start flex-col" method="post" action="" enctype="multipart/form-data">
       <label for="username">Username:</label>
       <input type="text" name="username" required>
+      <label for="email">Email:</label>
+      <input type="email" name="email" required>
       <label for="password">Password:</label>
       <input type="password" name="password" required>
       <label for="user_img">Profile Image:</label>

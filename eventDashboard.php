@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
 
   // Retrieve the list of registered users for the event
   $selectUsersQuery = "
-    SELECT users.user_id, users.username, users.user_img
+    SELECT users.user_id, users.username, users.email, users.user_img
     FROM users
     JOIN registrations ON users.user_id = registrations.user_id
     WHERE registrations.event_id = '$eventID'
@@ -85,6 +85,7 @@ if (isset($_GET['id'])) {
           "<div class='flex-center'>
             <img class='user-img' src='{$user['user_img']}' alt='User Image' width='40' height='40'>
             <p class='user-username'>{$user['username']}</p>
+            <p class='user-email'>{$user['email']}</p>
           </div>";
       }
       echo "</div>";
