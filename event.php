@@ -1,6 +1,7 @@
 <?php
 // Include the database connection file
 include 'utils/db_connection.php';
+include 'utils/functions.php';
 
 // Check if the 'id' parameter is set in the URL
 if (isset($_GET['id'])) {
@@ -23,6 +24,16 @@ if (isset($_GET['id'])) {
 
   // Fetch event details
   $event = mysqli_fetch_assoc($result);
+
+  // Check if the user is already registered for the event
+  $isRegistered = false;
+  if (is_logged_in()) {
+    $userID = $_SESSION['user_id'];
+    $checkRegistrationQuery = "SELECT * FROM registrations WHERE event_id = '$eventID' AND user_id = '$userID'";
+    $registrationResult = mysqli_query($conn, $checkRegistrationQuery);
+    $isRegistered = mysqli_num_rows($registrationResult) > 0;
+  }
+
 } else {
   // Redirect to the index page if 'id' parameter is not set
   header("Location: index.php");
@@ -51,7 +62,21 @@ if (isset($_GET['id'])) {
           "<div id='event-img-ctr'>
             <img class='bg-img' src='{$event['event_img']}' alt='Event Image'>
           </div>
-          <h3 class='h2-bold'>{$event['event_name']}</h3>
+          <div class='flex-between'>
+            <h3 class='h2-bold'>{$event['event_name']}</h3>";
+        if ($isRegistered) {
+          echo
+            "<a href='unregisterEvent.php?eventID={$event['event_id']}'>
+              Unregister from this Event
+            </a>";
+        } else {
+          echo
+            "<a href='registerEvent.php?eventID={$event['event_id']}'>
+              Register for this Event
+            </a>";
+        }
+        echo
+          "</div>
           <div class='event-date-organizator'>
             <p>{$event['event_date']}</p>
             <div class='flex-start'>
