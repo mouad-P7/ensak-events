@@ -39,6 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $eventName = $_POST['event_name'];
   $eventDate = $_POST['event_date'];
   $eventDetails = $_POST['event_details'];
+  $eventLatitude = $_POST['event_latitude'];
+  $eventLongitude = $_POST['event_longitude'];
 
   // Sanitize inputs
   $eventId = mysqli_real_escape_string($conn, $eventId);
@@ -67,7 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           SET event_name = '$eventName', 
             event_date = '$eventDate', 
             event_details = '$eventDetails', 
-            event_img = '$eventImage' 
+            event_img = '$eventImage',
+            event_latitude = '$eventLatitude', 
+            event_longitude = '$eventLongitude'
           WHERE event_id = '$eventId' AND organizer_id = '$organizerID'";
         $updateResult = mysqli_query($conn, $updateQuery);
 
@@ -87,7 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       "UPDATE events 
       SET event_name = '$eventName', 
         event_date = '$eventDate', 
-        event_details = '$eventDetails' 
+        event_details = '$eventDetails',
+        event_latitude = '$eventLatitude',
+        event_longitude = '$eventLongitude'
       WHERE event_id = '$eventId' AND organizer_id = '$organizerID'";
     $updateResult = mysqli_query($conn, $updateQuery);
 
@@ -112,6 +118,7 @@ mysqli_close($conn);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Event</title>
   <link rel="stylesheet" type="text/css" href="styles/globals.css">
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=???&callback=initMap"></script>
 </head>
 
 <body>
@@ -120,20 +127,73 @@ mysqli_close($conn);
     <h1>Edit Event</h1>
     <form method="post" action="" class="flex-start flex-col" enctype="multipart/form-data">
       <input type="hidden" name="event_id" value="<?php echo $event['event_id']; ?>">
+
       <label for="event_name">Event Name:</label>
       <input type="text" id="event_name" name="event_name" value="<?php echo $event['event_name']; ?>" required>
+
       <label for="event_date">Event Date:</label>
       <input type="date" id="event_date" name="event_date" value="<?php echo $event['event_date']; ?>" required>
+
       <label for="event_details">Event Details:</label>
       <textarea name="event_details" id="event_details" rows="4"
         required><?php echo $event['event_details']; ?></textarea>
+
       <img src="<?php echo $event['event_img']; ?>" alt="Current Event Image" width="150" height="100">
       <label for="event_img">Upload a new image:</label>
       <input type="file" id="event_img" name="event_img" accept="image/*" maxlength="2000000">
+
+      <label for="map">Choose Location:</label>
+      <div id="map"></div>
+      <input type="hidden" id="event_latitude" name="event_latitude" value="<?php echo $event['event_latitude']; ?>">
+      <input type="hidden" id="event_longitude" name="event_longitude" value="<?php echo $event['event_longitude']; ?>">
+
       <button type="submit">Save Changes</button>
     </form>
   </main>
   <?php require 'layout/footer.php'; ?>
+
+  <script>
+    var map;
+    var marker;
+
+    function initMap() {
+      // Initialize the map
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: <?php echo $event['event_latitude']; ?>,
+          lng: <?php echo $event['event_longitude']; ?>
+        },
+        zoom: 15 // Adjust the initial zoom level as needed
+      });
+      // Add a click event listener to get the location when the user clicks on the map
+      map.addListener('click', function (event) {
+        updateLocation(event.latLng.lat(), event.latLng.lng());
+      });
+      // Add a marker for the default location 
+      marker = new google.maps.Marker({
+        position: {
+          lat: <?php echo $event['event_latitude']; ?>,
+          lng: <?php echo $event['event_longitude']; ?>
+        },
+        map: map,
+        draggable: true, // Allow the marker to be dragged to select a precise location
+        title: 'Event Location'
+      });
+      // Add a drag event listener to update the location when the marker is dragged
+      marker.addListener('dragend', function (event) {
+        updateLocation(event.latLng.lat(), event.latLng.lng());
+      });
+    }
+
+    function updateLocation(latitude, longitude) {
+      // Update the hidden input fields with the selected coordinates
+      document.getElementById('event_latitude').value = latitude;
+      document.getElementById('event_longitude').value = longitude;
+      // Update the marker position on the map
+      marker.setPosition({ lat: latitude, lng: longitude });
+    }
+  </script>
+
 </body>
 
 </html>

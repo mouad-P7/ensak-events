@@ -58,11 +58,36 @@ if (isset($_GET['id'])) {
   <title>Event Dashboard</title>
   <link rel="stylesheet" type="text/css" href="styles/globals.css">
   <link rel="stylesheet" type="text/css" href="styles/eventDashboard.css">
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=???&callback=initMap"></script>
+  <script>
+    var map;
+    var marker;
+    function initMap() {
+      // Initialize the map
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {
+          lat: <?php echo $event['event_latitude']; ?>,
+          lng: <?php echo $event['event_longitude']; ?>
+        },
+        zoom: 15 // You can adjust the zoom level as needed
+      });
+      // Add a marker for the event's location
+      marker = new google.maps.Marker({
+        position: {
+          lat: <?php echo $event['event_latitude']; ?>,
+          lng: <?php echo $event['event_longitude']; ?>
+        },
+        map: map,
+        title: 'Event Location'
+      });
+    }
+  </script>
 </head>
 
 <body>
   <?php require 'layout/header.php'; ?>
   <main class="flex-start flex-col">
+    <img src="<?php echo $event['event_img']; ?>" alt="event-img">
     <h1>
       <?php echo $event['event_name']; ?>
     </h1>
@@ -73,6 +98,13 @@ if (isset($_GET['id'])) {
       <p><strong>Details:</strong>
         <?php echo $event['event_details']; ?>
       </p>
+      <?php
+      if ($event['event_latitude'] != 0 && $event['event_longitude'] != 0) {
+        echo "<div id='map'></div>";
+      } else {
+        echo "<p>No Location in this event.</p>";
+      }
+      ?>
     </div>
     <h2>Registered Users:</h2>
     <?php

@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $eventName = $_POST['event_name'];
   $eventDate = $_POST['event_date'];
   $eventDetails = $_POST['event_details'];
+  $eventLatitude = $_POST['event_latitude'];
+  $eventLongitude = $_POST['event_longitude'];
 
   // Sanitize inputs
   $eventName = mysqli_real_escape_string($conn, $eventName);
@@ -38,7 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $eventImage = $target_file;
 
         // Insert the new event into the database with the image
-        $insertQuery = "INSERT INTO events (event_name, event_date, event_details, event_img, organizer_id) VALUES ('$eventName', '$eventDate', '$eventDetails', '$eventImage', '$organizerID')";
+        $insertQuery =
+          "INSERT INTO events (event_name, event_date, event_details, event_img, event_latitude, event_longitude, organizer_id) 
+          VALUES ('$eventName', '$eventDate', '$eventDetails', '$eventImage', '$eventLatitude', '$eventLongitude', '$organizerID')";
         $insertResult = mysqli_query($conn, $insertQuery);
 
         if ($insertResult) {
@@ -78,6 +82,7 @@ mysqli_close($conn);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Event</title>
   <link rel="stylesheet" type="text/css" href="styles/globals.css">
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=???&callback=initMap"></script>
 </head>
 
 <body>
@@ -92,16 +97,62 @@ mysqli_close($conn);
     <form method="post" action="" class="flex-start flex-col" enctype="multipart/form-data">
       <label for="event_name">Event Name:</label>
       <input type="text" id="event_name" name="event_name" required>
+
       <label for="event_date">Event Date:</label>
       <input type="date" id="event_date" name="event_date" required>
+
       <label for="event_details">Event Details:</label>
       <textarea name="event_details" id="event_details" rows="4" required></textarea>
+
       <label for="event_img">Event Image:</label>
       <input type="file" id="event_img" name="event_img" accept="image/*" maxlength="2000000" required>
+
+      <label for="map">Choose Location:</label>
+      <div id="map"></div>
+      <input type="hidden" id="event_latitude" name="event_latitude" value="">
+      <input type="hidden" id="event_longitude" name="event_longitude" value="">
+
       <button type="submit">Create Event</button>
     </form>
   </main>
   <?php require 'layout/footer.php'; ?>
+
+  <script>
+    var map;
+    var marker;
+
+    function initMap() {
+      // Initialize the map
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 32.54658575029272, lng: -5.855369567871094 },
+        zoom: 4 // Adjust the initial zoom level as needed
+      });
+      // Add a click event listener to get the location when the user clicks on the map
+      map.addListener('click', function (event) {
+        updateLocation(event.latLng.lat(), event.latLng.lng());
+      });
+      // Add a marker for the default location 
+      marker = new google.maps.Marker({
+        position: { lat: 32.54658575029272, lng: -5.855369567871094 },
+        map: map,
+        draggable: true, // Allow the marker to be dragged to select a precise location
+        title: 'Event Location'
+      });
+      // Add a drag event listener to update the location when the marker is dragged
+      marker.addListener('dragend', function (event) {
+        updateLocation(event.latLng.lat(), event.latLng.lng());
+      });
+    }
+
+    function updateLocation(latitude, longitude) {
+      // Update the hidden input fields with the selected coordinates
+      document.getElementById('event_latitude').value = latitude;
+      document.getElementById('event_longitude').value = longitude;
+      // Update the marker position on the map
+      marker.setPosition({ lat: latitude, lng: longitude });
+    }
+  </script>
+
 </body>
 
 </html>
