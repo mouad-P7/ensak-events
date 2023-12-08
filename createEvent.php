@@ -82,7 +82,9 @@ mysqli_close($conn);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Event</title>
   <link rel="stylesheet" type="text/css" href="styles/globals.css">
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=???&callback=initMap"></script>
+  <?php require 'utils/config.php'; ?>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=<?php echo $googleMapsApiKey; ?>&callback=initMap"></script>
 </head>
 
 <body>

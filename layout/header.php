@@ -6,7 +6,7 @@
     ?>
     <div class="flex-between">
       <?php
-      if(is_logged_in()) {
+      if (is_logged_in()) {
         require_once 'utils/functions.php';
         echo '<a href = "viewEvents.php">Your Events</a>';
         echo '<a href = "logout.php">Logout</a>';

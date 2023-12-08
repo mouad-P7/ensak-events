@@ -58,7 +58,9 @@ if (isset($_GET['id'])) {
   <title>Event Dashboard</title>
   <link rel="stylesheet" type="text/css" href="styles/globals.css">
   <link rel="stylesheet" type="text/css" href="styles/eventDashboard.css">
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=???&callback=initMap"></script>
+  <?php require 'utils/config.php'; ?>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=<?php echo $googleMapsApiKey; ?>&callback=initMap"></script>
   <script>
     var map;
     var marker;
