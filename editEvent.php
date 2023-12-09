@@ -142,7 +142,7 @@ mysqli_close($conn);
       <input type="date" id="event_date" name="event_date" value="<?php echo $event['event_date']; ?>" required>
 
       <label for="event_details">Event Details:</label>
-      <textarea name="event_details" id="event_details" rows="4"
+      <textarea name="event_details" id="event_details" rows="6" cols="35"
         required><?php echo $event['event_details']; ?></textarea>
 
       <img src="<?php echo $event['event_img']; ?>" alt="Current Event Image" width="150" height="100">

@@ -93,43 +93,51 @@ if (isset($_GET['id'])) {
 
 <body>
   <?php require 'layout/header.php'; ?>
-  <main class="flex-start flex-col">
-    <img src="<?php echo $event['event_img']; ?>" alt="event-img">
-    <h1>
-      <?php echo $event['event_name']; ?>
-    </h1>
-    <div class='event-details-container'>
-      <p><strong>Date:</strong>
-        <?php echo $event['event_date']; ?>
-      </p>
-      <p><strong>Details:</strong>
-        <?php echo $event['event_details']; ?>
-      </p>
+  <main class="flex flex-col">
+    <div id="hero">
+      <div id="event-img">
+        <img class="bg-img" src="<?php echo $event['event_img']; ?>" alt="event-img">
+      </div>
+      <h1 class='event-name h1-semibold'>
+        <?php echo $event['event_name']; ?>
+      </h1>
+    </div>
+    <p class='event-date'><strong class='h1-semibold'>Date:</strong>
+      <?php echo $event['event_date']; ?>
+    </p>
+    <p class='event-details'><strong class='h1-semibold'>Details:</strong>
+      <?php echo $event['event_details']; ?>
+    </p>
+    <?php
+    if ($event['event_latitude'] != 0 && $event['event_longitude'] != 0) {
+      echo "<div id='map'></div>";
+    } else {
+      echo "<p>No Location in this event.</p>";
+    }
+    ?>
+    <h2>Registered Users:</h2>
+    <div>
+      <div class='user-row'>
+        <h3 class='user-profile'>User:</h3>
+        <h3 class='user-email'>Email:</h3>
+      </div>
       <?php
-      if ($event['event_latitude'] != 0 && $event['event_longitude'] != 0) {
-        echo "<div id='map'></div>";
+      if (empty($users)) {
+        echo "<p>No users registered for this event.</p>";
       } else {
-        echo "<p>No Location in this event.</p>";
+        foreach ($users as $user) {
+          echo
+            "<div class='user-row'>
+              <div class='user-profile'>
+                <img id='profile-img' src='{$user['user_img']}' alt='User Image' width='30' height='30'>
+                <p class='username'>{$user['username']}</p>
+              </div>
+              <p class='user-email'>{$user['email']}</p>
+            </div>";
+        }
       }
       ?>
     </div>
-    <h2>Registered Users:</h2>
-    <?php
-    if (empty($users)) {
-      echo "<p>No users registered for this event.</p>";
-    } else {
-      echo "<div id='users-ctr'>";
-      foreach ($users as $user) {
-        echo
-          "<div class='flex-center'>
-            <img class='user-img' src='{$user['user_img']}' alt='User Image' width='40' height='40'>
-            <p class='user-username'>{$user['username']}</p>
-            <p class='user-email'>{$user['email']}</p>
-          </div>";
-      }
-      echo "</div>";
-    }
-    ?>
   </main>
   <?php require 'layout/footer.php'; ?>
 </body>

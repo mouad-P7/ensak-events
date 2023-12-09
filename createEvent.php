@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
   exit();
 }
 include 'utils/functions.php';
-if(!is_admin()){
+if (!is_admin()) {
   header("Location: accessDenied.php");
   exit();
 }
@@ -109,7 +109,7 @@ mysqli_close($conn);
       <input type="date" id="event_date" name="event_date" required>
 
       <label for="event_details">Event Details:</label>
-      <textarea name="event_details" id="event_details" rows="4" required></textarea>
+      <textarea name="event_details" id="event_details" rows="6" cols="35" required></textarea>
 
       <label for="event_img">Event Image:</label>
       <input type="file" id="event_img" name="event_img" accept="image/*" maxlength="2000000" required>

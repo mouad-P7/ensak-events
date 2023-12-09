@@ -1,6 +1,55 @@
-#users-ctr {
+#hero {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  row-gap: 20px;
-  flex-wrap: wrap;
+  gap: 10px;
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
+}
+#event-img {
+  width: 330px;
+  height: auto;
+  flex-shrink: 0;
+}
+.event-name {
+  flex-grow: 1;
+}
+.event-details,
+.event-date {
+  text-align: start;
+}
+
+.user-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-radius: 10px;
+}
+.user-row > * {
+  border: 1px solid #3b3b42;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.user-row:hover {
+  background-color: #0e0e10;
+}
+#profile-img {
+  border-radius: 50%;
+}
+.user-email,
+.username {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.user-profile {
+  flex: 1 0 0;
+}
+.user-email {
+  flex: 1 1 0;
 }
