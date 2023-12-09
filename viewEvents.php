@@ -23,12 +23,16 @@ $organizerID = $_SESSION['user_id'];
 $selectQuery = "SELECT * FROM events WHERE organizer_id = '$organizerID'";
 $result = mysqli_query($conn, $selectQuery);
 
-if (!$result) {
+$organizerQuery = "SELECT * FROM users WHERE user_id = '$organizerID'";
+$result2 = mysqli_query($conn, $organizerQuery);
+
+if (!$result || !$result2) {
   die("Error executing the query: " . mysqli_error($conn));
 }
 
 // Fetch and display events
 $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$organizer = mysqli_fetch_assoc($result2);
 ?>
 
 <!DOCTYPE html>
@@ -44,24 +48,26 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 <body>
   <?php require 'layout/header.php'; ?>
-  <main class="flex-start flex-col">
-    <h1>Your Events:</h1>
-    <div class='flex-center event-row'>
-      <h3 class='event-name h3-bold'>Name:</h3>
-      <p class='event-date h3-bold'>Date:</p>
-      <p class='event-details h3-bold'>Details:</p>
-      <p class='event-actions h3-bold'>Actions:</p>
+  <main class="flex flex-col">
+    <div class="flex-start">
+      <img id="profile-img" src="<?php echo $organizer['user_img']; ?>" alt="profile-img">
+      <p>
+        <?php echo $_SESSION['username']; ?>
+      </p>
     </div>
-    <?php
-    if (empty($events)) {
-      echo "<p>No events found.</p>";
-    } else {
-      foreach ($events as $event) {
-        echo
-          "<div class='flex-center event-row'>
+    <div>
+      <div class='event-row'>
+        <h3 class='event-name h3-bold'>Name:</h3>
+        <p class='event-actions h3-bold'>Actions:</p>
+      </div>
+      <?php
+      if (empty($events)) {
+        echo "<p>No events found.</p>";
+      } else {
+        foreach ($events as $event) {
+          echo
+            "<div class='event-row'>
             <h3 class='event-name'>{$event['event_name']}</h3>
-            <p class='event-date'>{$event['event_date']}</p>
-            <p class='event-details'>{$event['event_details']}</p>
             <div class='event-actions'>
               <a href='event.php?id={$event['event_id']}' class='normal'>View</a>
               <a href='eventDashboard.php?id={$event['event_id']}' class='info'>Info</a>
@@ -72,10 +78,11 @@ $events = mysqli_fetch_all($result, MYSQLI_ASSOC);
               </form>
             </div>
           </div>";
+        }
       }
-    }
-    ?>
-    <a href="createEvent.php">Create New Event</a>
+      ?>
+    </div>
+    <a id="create-event" href="createEvent.php">Create New Event</a>
   </main>
   <?php require 'layout/footer.php'; ?>
 </body>

@@ -1,13 +1,23 @@
+#profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
 .event-row {
+  display: flex;
+  justify-content: center;
   width: 100%;
+  border-radius: 10px;
+}
+.event-row > * {
+  border: 1px solid #3b3b42;
   padding: 10px;
 }
 .event-row:hover {
   background-color: #0e0e10;
-  border-radius: 10px;
 }
 .event-row .event-name {
-  flex-basis: 90px;
+  flex: 1;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -24,12 +34,17 @@
   -webkit-line-clamp: 2;
 }
 .event-row .event-actions {
+  flex-basis: 40%;
   display: flex;
+  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 5px;
 }
 .event-row .event-actions a,
 .event-row .event-actions button {
   padding: 1px 5px;
+}
+#create-event {
+  align-self: center;
 }

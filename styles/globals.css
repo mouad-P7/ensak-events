@@ -96,21 +96,22 @@ a {
   align-items: center;
   gap: 10px;
 }
-
 .flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
 }
-
 .flex-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
-
+.flex {
+  display: flex;
+  gap: 10px;
+}
 .flex-end {
   display: flex;
   justify-content: flex-end;
