@@ -6,13 +6,13 @@ include 'utils/db_connection.php';
 session_start();
 
 // Check if the form is submitted
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Get user input from the form
   $username = $_POST['username'];
   $password = $_POST['password'];
 
   // Validate user input (you can add more validation as needed)
-  if(empty($username) || empty($password)) {
+  if (empty($username) || empty($password)) {
     $error_message = "Username and password are required.";
   } else {
     // Sanitize user input to prevent SQL injection
@@ -23,22 +23,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
     $result = mysqli_query($conn, $query);
 
-    if($result) {
+    if ($result) {
       // Check if a matching user is found
-      if(mysqli_num_rows($result) == 1) {
+      if (mysqli_num_rows($result) == 1) {
         // User is authenticated, store user data in session
         $user = mysqli_fetch_assoc($result);
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['user_role'] = $user['user_role'];
 
         // Redirect to a dashboard or home page
-        header("Location: viewEvents.php");
+        if ($_SESSION['user_role'] == "admin") {
+          header("Location: viewEvents.php");
+        } else if ($_SESSION['user_role'] == "user") {
+          header("Location: index.php");
+        }
         exit();
       } else {
         $error_message = "Invalid username or password.";
       }
     } else {
-      $error_message = "Error executing the query: ".mysqli_error($conn);
+      $error_message = "Error executing the query: " . mysqli_error($conn);
     }
   }
 }
@@ -63,7 +68,7 @@ mysqli_close($conn);
     <h1>Login Form</h1>
     <?php
     // Display error message if any
-    if(isset($error_message)) {
+    if (isset($error_message)) {
       echo "<p style='color: red;'>$error_message</p>";
     }
     ?>

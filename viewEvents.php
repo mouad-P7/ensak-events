@@ -7,6 +7,11 @@ if (!isset($_SESSION['user_id'])) {
   header("Location: login.php");
   exit();
 }
+include 'utils/functions.php';
+if (!is_admin()) {
+  header("Location: accessDenied.php");
+  exit();
+}
 
 // Include the database connection file
 include 'utils/db_connection.php';

@@ -10,6 +10,11 @@ if (!isset($_SESSION['user_id'])) {
   header("Location: login.php");
   exit();
 }
+include 'utils/functions.php';
+if (!is_admin()) {
+  header("Location: accessDenied.php");
+  exit();
+}
 
 // Check if the 'id' parameter is set in the URL
 if (isset($_GET['id'])) {
