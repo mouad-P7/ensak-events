@@ -1,3 +1,8 @@
+#search-input {
+  flex-grow: 1;
+  max-width: 400px;
+}
+
 #event-card-ctr {
   display: flex;
   justify-content: center;
