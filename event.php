@@ -88,7 +88,7 @@ if (isset($_GET['id'])) {
           "<div id='event-img-ctr'>
             <img class='bg-img' src='{$event['event_img']}' alt='Event Image'>
           </div>
-          <div class='flex-between'>
+          <div class='flex-between flex-wrap'>
             <h3 class='h2-bold'>{$event['event_name']}</h3>";
         if ($isRegistered) {
           echo
@@ -104,7 +104,8 @@ if (isset($_GET['id'])) {
         echo
           "</div>
           <div class='event-date-organizator'>
-            <p>{$event['event_date']}</p>
+            <p>Categorie: {$event['event_type']}</p>
+            <p>Date: {$event['event_date']}</p>
             <div class='flex-start'>
               <p>Organisé par:</p>
               <img 

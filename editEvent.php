@@ -42,6 +42,7 @@ if (isset($_GET['id'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $eventId = $_POST['event_id']; // Assuming you have a hidden input for event_id in your form
   $eventName = $_POST['event_name'];
+  $eventType = $_POST['event_type'];
   $eventDate = $_POST['event_date'];
   $eventDetails = $_POST['event_details'];
   $eventLatitude = $_POST['event_latitude'];
@@ -72,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $updateQuery =
           "UPDATE events 
           SET event_name = '$eventName', 
+            event_type = '$eventType',
             event_date = '$eventDate', 
             event_details = '$eventDetails', 
             event_img = '$eventImage',
@@ -95,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updateQuery =
       "UPDATE events 
       SET event_name = '$eventName', 
+        event_type = '$eventType',
         event_date = '$eventDate', 
         event_details = '$eventDetails',
         event_latitude = '$eventLatitude',
@@ -136,7 +139,15 @@ mysqli_close($conn);
       <input type="hidden" name="event_id" value="<?php echo $event['event_id']; ?>">
 
       <label for="event_name">Event Name:</label>
-      <input type="text" id="event_name" name="event_name" value="<?php echo $event['event_name']; ?>" required>
+      <input type="text" id="event_name" name="event_name" value='<?php echo $event['event_name']; ?>' required>
+
+      <label for="event_type">Event Type:</label>
+      <select id="event_type" name="event_type" required>
+        <option value="conférence">Conférence</option>
+        <option value="forum">Forum</option>
+        <option value="formation">Formation</option>
+        <option value="voyage">Voyage</option>
+      </select>
 
       <label for="event_date">Event Date:</label>
       <input type="date" id="event_date" name="event_date" value="<?php echo $event['event_date']; ?>" required>
@@ -160,6 +171,9 @@ mysqli_close($conn);
   <?php require 'layout/footer.php'; ?>
 
   <script>
+    // Set default value to event_type using JavaScript
+    document.getElementById("event_type").value = "<?php echo $event['event_type']; ?>";
+
     var map;
     var marker;
 

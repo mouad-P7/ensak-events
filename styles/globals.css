@@ -36,6 +36,8 @@ main {
 button,
 input,
 textarea,
+select,
+option,
 a {
   background-color: #242937;
   padding: 5px 10px;
@@ -120,6 +122,9 @@ a {
 }
 .flex-col {
   flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .h1 {

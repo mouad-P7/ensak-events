@@ -102,9 +102,14 @@ if (isset($_GET['id'])) {
         <?php echo $event['event_name']; ?>
       </h1>
     </div>
-    <p class='event-date'><strong class='h1-semibold'>Date:</strong>
-      <?php echo $event['event_date']; ?>
-    </p>
+    <div class='flex-between flex-wrap'>
+      <p class='event-type'><strong class='h1-semibold'>Categorie:</strong>
+        <?php echo $event['event_type']; ?>
+      </p>
+      <p class='event-date'><strong class='h1-semibold'>Date:</strong>
+        <?php echo $event['event_date']; ?>
+      </p>
+    </div>
     <p class='event-details'><strong class='h1-semibold'>Details:</strong>
       <?php echo $event['event_details']; ?>
     </p>

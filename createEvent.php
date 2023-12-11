@@ -19,6 +19,7 @@ include 'utils/db_connection.php';
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $eventName = $_POST['event_name'];
+  $eventType = $_POST['event_type'];
   $eventDate = $_POST['event_date'];
   $eventDetails = $_POST['event_details'];
   $eventLatitude = $_POST['event_latitude'];
@@ -46,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Insert the new event into the database with the image
         $insertQuery =
-          "INSERT INTO events (event_name, event_date, event_details, event_img, event_latitude, event_longitude, organizer_id) 
-          VALUES ('$eventName', '$eventDate', '$eventDetails', '$eventImage', '$eventLatitude', '$eventLongitude', '$organizerID')";
+          "INSERT INTO events (event_name, event_date, event_details, event_img, event_latitude, event_longitude, organizer_id, event_type) 
+          VALUES ('$eventName', '$eventDate', '$eventDetails', '$eventImage', '$eventLatitude', '$eventLongitude', '$organizerID', '$eventType')";
         $insertResult = mysqli_query($conn, $insertQuery);
 
         if ($insertResult) {
@@ -66,9 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $insertResult = mysqli_query($conn, $insertQuery);
 
     if ($insertResult) {
-      $error_message = "isset(_FILES['event_img']) && _FILES['event_img']['error'] == 0";
-      // header("Location: viewEvents.php");
-      // exit();
+      // $error_message = "isset(_FILES['event_img']) && _FILES['event_img']['error'] == 0";
+      header("Location: viewEvents.php");
+      exit();
     } else {
       $error_message = "Error executing the query: " . mysqli_error($conn);
     }
@@ -104,6 +105,14 @@ mysqli_close($conn);
     <form method="post" action="" class="flex-start flex-col" enctype="multipart/form-data">
       <label for="event_name">Event Name:</label>
       <input type="text" id="event_name" name="event_name" required>
+
+      <label for="event_type">Event Categorie:</label>
+      <select id="event_type" name="event_type" required>
+        <option value="conférence">Conférence</option>
+        <option value="forum">Forum</option>
+        <option value="formation">Formation</option>
+        <option value="voyage">Voyage</option>
+      </select>
 
       <label for="event_date">Event Date:</label>
       <input type="date" id="event_date" name="event_date" required>

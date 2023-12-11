@@ -16,7 +16,8 @@
   flex-grow: 1;
 }
 .event-details,
-.event-date {
+.event-date,
+.event-type {
   text-align: start;
 }
 
