@@ -72,9 +72,9 @@ $organizer = mysqli_fetch_assoc($result2);
               <a href='event.php?id={$event['event_id']}' class='normal'>View</a>
               <a href='eventDashboard.php?id={$event['event_id']}' class='info'>Info</a>
               <a href='editEvent.php?id={$event['event_id']}' class='warning'>Edit</a>
-              <form id='deleteEventForm' method='post' action='deleteEvent.php'>
+              <form id=\"deleteEventForm{$event['event_id']}\" method='post' action='deleteEvent.php'>
                 <input type='hidden' name='event_id' value='{$event['event_id']}'>
-                <button type='button' onclick='confirmDelete()' class='danger'>Delete</button>
+                <button type='button' onclick='confirmDelete(\"deleteEventForm{$event['event_id']}\")' class='danger'>Delete</button>
               </form>
             </div>
           </div>";
@@ -88,9 +88,9 @@ $organizer = mysqli_fetch_assoc($result2);
 </body>
 
 <script>
-  function confirmDelete() {
+  function confirmDelete(formId) {
     var result = confirm("Are you sure you want to delete this event?");
-    if (result) document.getElementById('deleteEventForm').submit();
+    if (result) document.getElementById(formId).submit();
   }
 </script>
 
