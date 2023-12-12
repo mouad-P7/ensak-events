@@ -38,12 +38,18 @@ CREATE TABLE IF NOT EXISTS registrations (
   FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
--- Insert some test data
+-- Insert some fake users data
 INSERT INTO users (username, email, password, user_img, user_role)
 VALUES ('Mouad Ananouch', 'mouad.ananouch@uit.ac.ma', 'secret', 'images/m.jpg', 'user'),
 ('Mouad-P7', 'mouadananouch7@gmail.com', 'secret', 'images/smile-2.jpg', 'user'),
-('Club ANARUZ', 'anaruz@gmail.com', 'secret', 'images/inconnu.png', 'admin');
+('club anaruz', 'anaruz@gmail.com', 'secret', 'images/anaruz.jpg', 'admin');
 
+-- Insert some fake events data
 INSERT INTO events (organizer_id, event_name, event_date, event_details, event_img, event_latitude, event_longitude, event_type)
 VALUES (3, '"Arabian Nights" in Morocco', '2023-12-30', 'Morocco Arabian Nights event offers an enchanting experience with vibrant decor, traditional music, dance, and a feast of Moroccan cuisine, immersing guests in the magical tales.', 'images/morocco.jpg', 31.59078450242524, -7.97583585657646, 'voyage'),
-(3, 'ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum', '2023-12-31', 'ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023', 'images/ensak.jpg', 34.25257320, -6.53506217, 'conférence');
+(3, 'ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum', '2023-12-31', 'ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023 ENSAK Forum 2023', 'images/ensak.jpg', 34.25257320, -6.53506217, 'conférence'),
+(3, 'Caravan', '2024-01-06', 'description.', 'images/caravan.jpg', 31.59078450242524, -7.97583585657646, 'voyage');
+
+-- Insert some fake registrations data
+INSERT INTO registrations (event_id, user_id)
+VALUES (1, 1), (1, 2);
